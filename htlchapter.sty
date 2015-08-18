@@ -1,0 +1,57 @@
+%
+% University Klagenfurt
+% Institute of Information Technology
+% ITEC chapter style
+%
+% Author: Roland Tusch
+%
+% Adaptation of the CHAPITRE style from C. Gavoille.
+% Last modified on: Sat Sep 20 2003
+%
+% Stype look and feel:
+%        
+% CHAPTER _______________________________________
+%    |
+%   /|    Chapter Name
+%    |
+%    |
+%   ---
+%
+
+\usepackage{ifthen}
+
+\typeout{Document stype option \"itecchapter\"}
+
+\newfont{\chapfont}{cmr10 scaled 9000}  % font size = 10pt*scaled/1000
+\def\fontheight{20mm}
+\def\decal{1.75ex}      % for aligning the line with CHAPTER
+
+\newlength{\lgchapname}
+\newlength{\lgchapnum}
+\newlength{\lgchapbox}
+\newlength{\lgall}
+
+\def\@makechapterhead#1{
+    %\thispagestyle{empty} % show number on this page
+    \ifthenelse{\equal{\@chapapp}{\chaptername}}
+        {\def\myboxone{\Large\sf\uppercase\expandafter{\chaptername}}}
+        {\def\myboxone{\Large\sf\uppercase\expandafter{\appendixname}}}
+    \def\myboxtwo{\mbox{\chapfont\thechapter}}
+    \settowidth{\lgchapname}{\myboxone}
+    \settowidth{\lgchapnum}{\myboxtwo}
+    \ifthenelse{\lgchapname > \lgchapnum}
+        {\setlength{\lgchapbox}{\lgchapname}}
+        {\setlength{\lgchapbox}{\lgchapnum}}
+    \def\mybox{
+        \parbox[t]{\lgchapbox}{\centering \myboxone \vskip12pt \myboxtwo}}
+    \addtolength{\lgchapbox}{5mm}
+    \setlength{\lgall}{\textwidth}
+    \addtolength{\lgall}{-\lgchapbox}
+    {\parindent\z@
+        \mybox
+        \raisebox{\decal}{\parbox[t]{\lgall}{\rule{\lgall}{1mm}\\\Huge\bf{#1}}}
+        \par
+        \nobreak
+        \vskip100pt
+    }
+}

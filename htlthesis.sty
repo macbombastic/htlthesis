@@ -1,0 +1,406 @@
+%
+% HTL Mössingerstraße
+% Diploma thesis style
+%
+% Editor: Daniel Wischounig-Strucl
+%
+% Adaptation of the Stanford University PhD thesis style.
+%
+% Modification history:
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{htlchapter}
+
+\typeout{Document Style Option `htlthesis'.}
+
+\long\def\comment#1{}
+\comment{
+
+}
+
+% Define the page heading to be page number only.
+\newcommand{\properpagestyle}{
+        \fancyhead[L]{\leftmark} 
+        \fancyhead[R]{{Page \thepage}}
+        \fancyfoot{}
+        \pagestyle{fancy}}
+
+\RequirePackage{expl3} % \usepackage{expl3} % http://tex.stackexchange.com/questions/438/how-to-test-whether-next-token-on-input-stream-is-catcode-10/442#442
+\ExplSyntaxOn
+\newcommand\latinabbrev[1]{
+  \peek_meaning:NTF . {% Same as \@ifnextchar
+    #1\@}
+  { \peek_catcode:NTF a {% Check whether next char has same catcode as \'a, i.e., is a letter
+      #1.\@ }
+    {#1.\@}}}
+\ExplSyntaxOff
+
+
+% Graphics package
+\usepackage{epsfig}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\graphicspath{{./images/}}
+\usepackage{subfigure}
+\usepackage[labelfont=bf]{caption}
+
+%encoding
+%--------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%--------------------------------------
+ 
+%German-specific commands
+%--------------------------------------
+\usepackage[english,ngerman]{babel}
+%--------------------------------------
+ 
+%Hyphenation rules
+%--------------------------------------
+\usepackage{hyphenat}
+\hyphenation{Mathe-matik wieder-gewinnen}
+%--------------------------------------
+
+
+
+% The first thing we do is make sure that report has been loaded.
+% A common error is to try to use itecthesis as a document class.
+\@ifundefined{chapter}{\@latexerr{The `htlthesis' option should be used
+with the `report' document style}{You should probably read the
+htlthesis documentation.}}{}
+
+% We need 1" margins except on the binding edge, where it is 1 1/2"
+% Theses are usually single-sided. However, two-sided versions are also supported.
+\oddsidemargin 0.5in
+\if@twoside
+  \evensidemargin -0.25in
+\else
+  \evensidemargin 0in
+\fi
+\marginparwidth 40pt \marginparsep 10pt
+\topmargin 0pt \headsep .5in
+\textheight 8.1in \textwidth 6in
+\headheight 16pt
+
+%\if@geometry@a4paper
+	\textheight 8.6in
+%\fi
+
+
+% Disallow page breaks at hyphens (this will give some underfull vbox's,
+% so an alternative is to use \brokenpenalty=100 and manually search
+% for and fix such page breaks)
+\brokenpenalty=10000
+
+\interfootnotelinepenalty=10000
+
+% Redefine the macro used for floats (including figures and tables)
+% so that single spacing is used.
+% (Note \def\figure{\@float{figure}set single spacing} doesn't work
+%  because figure has an optional argument)
+
+
+%%      Redefine the macro used for floats (including figures and tables)
+%%      so that single spacing is used.
+%%      (Note \def\figure{\@float{figure}set single spacing} doesn't work
+%%      because figure has an optional argument)
+
+%% Fix from GT (RPI, thesis.cls)  03-18-2007 ve.
+
+\let\latex@xfloat=\@xfloat
+\def\@xfloat #1[#2]{%
+  \latex@xfloat #1[#2]%
+  \def \baselinestretch {1}\@normalsize  %%  GT: need \@normalsize?
+  \normalsize
+}
+
+
+% Redefine the macro used for footnotes to use single spacing
+\long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
+    \interlinepenalty\interfootnotelinepenalty
+    \splittopskip\footnotesep
+    \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+    \hsize\columnwidth \@parboxrestore
+   \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
+    {\rule{\z@}{\footnotesep}\ignorespaces
+      #1\strut}}}
+
+% \author, \title are defined in report; here is the rest of the
+% front matter defining macros
+\def\male{\ma@letrue}
+\def\female{\ma@lefalse}
+\def\currdegree#1{\gdef\@currdegree{#1}}
+\def\university#1{\gdef\@university{#1}}
+\def\location#1{\gdef\@location{#1}}
+\def\faculty#1{\gdef\@faculty{#1}}
+\def\professor#1{\gdef\@professor{#1}}
+\def\submitdate#1{\gdef\@submitdate{#1}}
+\def\copyrightyear#1{\gdef\@copyrightyear{#1}} % \author, \title in report
+\def\thesistype#1{\gdef\@thesistype{#1}}
+% departments
+\def\elti{\faculty{Elektronik und Technische Informatik}}
+\def\bmgt{\faculty{Biomedizin und Gesundheitstechnik}}
+\def\elet{\faculty{Elektrotechnik}}
+% default settings
+
+\elti
+\def\@thesistype{DIPLOMARBEIT}
+\def\@title{}
+\def\@author{}
+\def\@university{Höhere Technische Bundleslehranstalt}
+\def\@address{Klagenfurt, Mössingerstrasse} 
+\def\@location{Klagenfurt}
+\def\@faculty{}
+\def\@professor{}
+\def\@submitdate{\ifcase\the\month\or
+  Januar\or Februar\or M\"arz\or April\or Mai\or Juni\or
+  Juli\or August\or September\or Oktober\or November\or Dezember\fi
+  \space \number\the\year}
+\def\@copyrightyear{\number\the\year}
+
+\def\dedicate#1{\dedic@tiontrue\gdef\dedication@text{#1}}
+
+\def\nobib{\print@bibfalse}
+\def\nolistoffigures{\figurespagefalse}
+\def\nolistoftables{\tablespagefalse}
+\def\nofront{\front@pagesfalse\figurespagefalse\tablespagefalse}
+
+% New if constructs:    Default conditions:
+\newif\iffigurespage    \figurespagetrue
+\newif\iftablespage     \tablespagetrue
+\newif\iffront@pages    \front@pagestrue
+\newif\ifma@le          \ma@letrue
+\newif\ifba@k           \ba@kfalse
+\newif\ifph@d           \ph@dfalse
+\newif\ifprint@bib      \print@bibtrue
+\newif\ifdedic@tion     \dedic@tionfalse
+
+\def\no@breaks#1{{\def\\{ \ignorespaces}#1}}    % disallow explicit line breaks
+
+
+\def\titlep{%
+    \thispagestyle{empty}%
+    \renewcommand{\baselinestretch}{0.95}
+    \oddsidemargin 0in
+    \textwidth 6.5in
+    \begin{center}
+		\includegraphics[width=0.55\textwidth]{graphics/HTL_MOE}\\
+		\vskip0.15in
+		\Large\uppercase\expandafter{\textbf\@university \\ \@address}
+		\vskip0.15in
+		\expandafter{\@faculty}\\  
+		\vskip0.35in
+      	\hline
+        \vskip0.35in
+        	\Huge\textbf{\@thesistype}
+        \vskip0.35in
+
+        %\null\vskip0.35in
+        \hyphenpenalty=10000\Huge\uppercase\expandafter{\@title}
+        \vskip0.6in
+
+%        \ifma@le
+%        \else
+%        \fi
+        %\normalsize\expandafter{\@institute}
+    \end{center}
+
+    \vskip0.25in
+    
+   	\begin{minipage}[t]{0.3\linewidth}   
+    	\begin{flushleft}
+		 eingereicht von: 
+		\end{flushleft}
+	\end{minipage}
+	\begin{minipage}[t]{0.6\linewidth}
+		\begin{flushleft}
+		\foreach \n in \@author {\n \\ }
+		\end{flushleft}
+	\end{minipage}	
+	
+	\vskip0.8in
+	
+	\begin{minipage}[t]{0.3\linewidth}   
+    	\begin{flushleft}
+		 Projektbetreuer: 
+		\end{flushleft}
+	\end{minipage}
+	\begin{minipage}[t]{0.6\linewidth}
+		\begin{flushleft}
+			\foreach \p in \@professor  { \p \\ }
+		\end{flushleft}
+	\end{minipage}	
+		
+    \vfill
+   
+    \small{Diese Diplomarbeit entspricht den Standards gemäß Leitfaden für Ingenieurprojekte des BM|BF.}
+    \begin{flushright}
+        \@location, \@submitdate
+    \end{flushright}
+    \newpage
+    \oddsidemargin 0.5in
+    \textwidth 6in
+}
+
+
+% Use 1.37 times the normal baseline-to-baseline skip
+\renewcommand{\baselinestretch}{1.37}
+
+
+\def\signature#1#2{\parbox[b]{1in}{\smash{#1}\vskip12pt}
+\hfill \parbox[t]{3in}{\shortstack{\vrule width 3in height 0.4pt}}
+\vskip0.25in
+\hfill \parbox[t]{3in}{\shortstack{#2, \number\the\day.
+                       \ifcase\the\month\or Januar\or Februar\or M\"arz\or
+                              April\or Mai\or Juni\or Juli\or August\or
+                              September\or Oktober\or November\or Dezember\fi
+                       \space \number\the\year}}
+}
+% English
+\def\signaturepage{%
+    \setcounter{page}{2}
+    \begin{quotation}
+        \hyphenpenalty=10000
+        \parindent=36pt
+        \begin{center}
+            \large {\bf Declaration of Honor}
+        \end{center}
+        \vskip12pt
+		\normalsize
+		\noindent I hereby confirm on my honor that I personally prepared the present academic work and carried out myself the activities directly involved with it. I also confirm that I have used no resources other than those declared. All formulations and concepts adopted literally or in their essential content from printed, unprinted or Internet sources have been cited according to the rules for academic work and identified by means of footnotes or other precise indications of source.\\
+		
+		\noindent The support provided during the work, including significant assistance from my supervisor has been indicated in full.\\
+		
+		\noindent The academic work has not been submitted to any other examination authority. The work is submitted in printed and electronic form. I confirm that the content of the digital version is completely identical to that of the printed version.\\
+		
+		\noindent I am aware that a false declaration will have legal consequences.
+        \vskip1.5in
+        \signature{Signature:}{\@location} \\
+    \end{quotation}
+    \vfill\newpage\setcounter{page}{3}}
+
+% German
+\def\signaturepage{%
+    \setcounter{page}{2}
+    \begin{quotation}
+        \hyphenpenalty=10000
+        \parindent=36pt
+        \begin{center}
+            \large {\bf Eidesstattliche Erklärung}
+        \end{center}
+        \vskip12pt
+		\normalsize
+		\noindent Ich erkläre an Eides statt, dass ich die vorliegende Diplomarbeit selbständig und ohne fremde Hilfe verfasst, andere als die angegebenen Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich und inhaltlich entnommenen Stellen als solche erkenntlich gemacht habe.
+		
+        \vskip1.5in
+        
+        \signature{Unterschrift:}{\@location} \\
+    \end{quotation}
+    \vfill\newpage\setcounter{page}{3}}
+
+\def\beforepreface{
+    \pagenumbering{roman}
+    \pagestyle{plain}
+    \titlep
+    \iffront@pages\signaturepage\else\addtocounter{page}{1}\fi
+    \iffront@pages\ifdedic@tion
+        \newpage\begin{center}\Large\em\null\vskip1in
+        \dedication@text
+        \vfill\end{center}
+    \fi\fi
+    }
+
+\def\nonumchapter#1{%
+    \chapter*{#1}
+    \addcontentsline{toc}{chapter}{#1}}
+
+\def\prefacesection#1{%
+    \chapter*{#1}
+    \addcontentsline{toc}{chapter}{#1}}
+
+\newenvironment{dedication}{\newpage\begin{center}\Large\em\null\vskip1in}%
+{\vfill\end{center}}
+
+\def\afterpreface{
+	\iffront@pages\tableofcontents\else\addtocounter{page}{1}\fi
+    \newpage
+    \iffigurespage
+        \addcontentsline{toc}{chapter}{List of Figures}\listoffigures
+        \newpage
+    \fi
+    \iftablespage
+        \addcontentsline{toc}{chapter}{List of Tables}\listoftables
+        \newpage
+    \fi
+    \cleardoublepage
+    \pagenumbering{arabic}
+    \typeout{thesis preface pages completed.}
+    \properpagestyle}
+
+% Redefine \thebibliography to go to a new page and put an entry in the
+% table of contents
+\let\@ldthebibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+    \newpage
+    \addcontentsline{toc}{chapter}{Bibliography}
+    \@ldthebibliography{#1}
+}
+
+\let\@ldbibliography\bibliography
+\renewcommand{\bibliography}[1]{\ifprint@bib\@ldbibliography{#1}\fi}
+
+
+%Omit final dot from each def.
+\def\eg{\latinabbrev{e.g},~}
+%\def\etal{\latinabbrev{et al}}
+\def\etc{\latinabbrev{etc}}
+\def\ie{\latinabbrev{i.e},~} 
+\def\cf{\latinabbrev{cf}~}
+
+\def\deg{\,^{\circ}}
+
+% Commands for simpler Referencing
+\newcommand\eqn[1]{Equation~\ref{eqn:#1}\@}
+\newcommand\fig[1]{Figure~\ref{fig:#1}\@}
+\renewcommand\sec[1]{Section~\ref{sec:#1}\@} 
+% use renewcommand to overwrite \sec from Trigonometry
+\newcommand\chp[1]{Chapter~\ref{chp:#1}\@}
+\newcommand\tbl[1]{Table~\ref{tbl:#1}\@}
+\newcommand\alg[1]{Algorithm~\ref{alg:#1}\@}
+
+% Other helping commands
+\newcommand\etal[1]{#1~\emph{\latinabbrev{et al}}~\@}
+\newcommand{\ud}{\,\mathrm{d}}
+
+% Start out normal
+\properpagestyle
+
+%\usepackage{htlchapter}
+
+%\usepackage[english,german]{babel} 
+
+\usepackage{times}
+\usepackage{multirow} 
+
+% Mathematical packages
+\usepackage{amsmath} 
+\usepackage{amssymb}
+
+\usepackage{color}
+\usepackage{todonotes}
+\usepackage{listings}
+
+\usepackage{lineno}
+\usepackage{xcolor}
+\usepackage{pdfcomment}
+\usepackage[section]{placeins}
+
+\usepackage[normalem]{ulem}
+\usepackage{enumitem}
+%\usepackage[applemac]{inputenc}
+%\usepackage[shortcuts]{glossaries}
+
+% Printing codes and pseudocode
+\usepackage{algorithm}
+\usepackage{algpseudocode} 
+

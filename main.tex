@@ -1,0 +1,61 @@
+% print right and left page 
+%\documentclass[12pt,twoside]{report}
+% print right page only
+\documentclass[12pt,a4paper]{report}
+% note that the document can be single or double sided.
+% Style credits to: Stanford Style, Roland, Ingo,
+% Adapted by Daniel Wischounig-Strucl   
+
+%\usepackage{suthesis-2e}
+
+\usepackage{htlthesis}
+
+
+
+% Spell Checker:
+% aspell -t -l en --add-tex-command="eqn p" --add-tex-command="fig p" --add-tex-command="sec p" --add-tex-command="textit p" --add-tex-command="alg p" --add-tex-command="tbl p" --add-tex-command="etal p" -c file.tex
+ 
+\begin{document}
+	%for BMGT uncomment the following line
+	%\bmgt
+    \title{This is the title \\ 
+           of your thesis}
+    \author{Student One,Student Two,Student Three}
+    \professor{Prof. Dipl.--Ing. Dr. Daniel Wischounig-Strucl, 
+       Prof. Dipl.--Ing. Dr. Peter Lippitsch}
+     
+    \beforepreface
+    %\listoftodos
+  	
+  	\prefacesection{Abstract} % optional
+    \input{abstract}
+    
+    %\prefacesection{Acknowledgements}
+    % I would like to thank the most important people in my life: The Simpsons
+
+	%\prefacesection{Preface}
+	% This thesis tells you all you need to know about life, the
+	% universe, and everything. And finally proves the ultimate answer 42.
+
+    \afterpreface 
+    
+    
+    
+    % chapter of introduction
+    \input{introduction}
+       
+    \input{basics}
+       	
+    \input{work}
+
+    \input{conclusions} 
+    
+    \appendix
+ 	\input{appendix}
+    %\input{abbreviations}
+    %\nocite{}
+    \bibliographystyle{abbrv}
+    \bibliography{references} 
+    %\onlinesignature
+
+\end{document}
