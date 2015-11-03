@@ -23,8 +23,9 @@
         \fancyhead[L]{\leftmark} 
         \fancyhead[R]{{Page \thepage}}
         \fancyfoot{}
-        \pagestyle{fancy}}
-
+        \pagestyle{fancy}
+        }
+\RequirePackage{suthesis-2e}
 \RequirePackage{expl3} % \usepackage{expl3} % http://tex.stackexchange.com/questions/438/how-to-test-whether-next-token-on-input-stream-is-catcode-10/442#442
 \ExplSyntaxOn
 \newcommand\latinabbrev[1]{
@@ -184,19 +185,30 @@ htlthesis documentation.}}{}
     \oddsidemargin 0in
     \textwidth 6.5in
     \begin{center}
-		\includegraphics[width=0.55\textwidth]{graphics/HTL_MOE}\\
+    
+		\includegraphics[width=0.55\textwidth]{graphics/HTL_MOE}
+	
 		\vskip0.15in
-		\Large\uppercase\expandafter{\textbf\@university \\ \@address}
-		\vskip0.15in
-		\expandafter{\@faculty}\\  
+	
+		\Large\uppercase\expandafter{\textbf\@university}
+		
+		\@address
+	
+		\vskip0.10in
+	
+		\expandafter{\@faculty}
+	
 		\vskip0.35in
-      	\hline
+    
+      	\hrule
+    
         \vskip0.35in
         	\Huge\textbf{\@thesistype}
         \vskip0.35in
 
         %\null\vskip0.35in
         \hyphenpenalty=10000\Huge\uppercase\expandafter{\@title}
+    
         \vskip0.6in
 
 %        \ifma@le
@@ -339,15 +351,15 @@ htlthesis documentation.}}{}
 
 % Redefine \thebibliography to go to a new page and put an entry in the
 % table of contents
-\let\@ldthebibliography\thebibliography
-\renewcommand{\thebibliography}[1]{%
-    \newpage
-    \addcontentsline{toc}{chapter}{Bibliography}
-    \@ldthebibliography{#1}
-}
-
-\let\@ldbibliography\bibliography
-\renewcommand{\bibliography}[1]{\ifprint@bib\@ldbibliography{#1}\fi}
+% \let\@ldthebibliography\thebibliography
+% \renewcommand{\thebibliography}[1]{%
+%     \newpage
+%     \addcontentsline{toc}{chapter}{Bibliography}
+%     \@ldthebibliography{#1}
+% }
+% 
+% \let\@ldbibliography\bibliography
+% \renewcommand{\bibliography}[1]{\ifprint@bib\@ldbibliography{#1}\fi}
 
 
 %Omit final dot from each def.
@@ -362,7 +374,7 @@ htlthesis documentation.}}{}
 % Commands for simpler Referencing
 \newcommand\eqn[1]{Equation~\ref{eqn:#1}\@}
 \newcommand\fig[1]{Figure~\ref{fig:#1}\@}
-\renewcommand\sec[1]{Section~\ref{sec:#1}\@} 
+\newcommand\sect[1]{Section~\ref{sec:#1}\@} 
 % use renewcommand to overwrite \sec from Trigonometry
 \newcommand\chp[1]{Chapter~\ref{chp:#1}\@}
 \newcommand\tbl[1]{Table~\ref{tbl:#1}\@}
